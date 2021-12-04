@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Company;
 use App\User;
 
-class dummy_account_information__table extends Seeder
+class dummy_account_information_table extends Seeder
 {
     /**
      * Run the database seeds.
