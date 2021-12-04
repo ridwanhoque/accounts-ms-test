@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use App\AccountInformation;
 use Illuminate\Support\Facades\Auth;
 
-class dummy_payment_methods__table extends Seeder
+class dummy_payment_methods_table extends Seeder
 {
     /**
      * Run the database seeds.
