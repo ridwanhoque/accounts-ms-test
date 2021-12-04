@@ -1,6 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\AccountInformation;
+use Illuminate\Support\Facades\Auth;
 
 class dummy_payment_methods__table extends Seeder
 {
@@ -12,10 +15,11 @@ class dummy_payment_methods__table extends Seeder
     public function run()
     {
         $account_information = AccountInformation::where('company_id', 1)->get();
+        $user_id = Auth::user()->id;
         foreach($account_information as $acc_info){
             $data = [
                 [
-                    'company_id' => $company_id, 'created_by' => $user_id, 'updated_by' => $user_id, 'account_information_id' => $acc_info->id,
+                    'company_id' => $acc_info->company_id, 'created_by' => $user_id, 'updated_by' => $user_id, 'account_information_id' => $acc_info->id,
                     'method_name' => $acc_info->name, 'status' => 1,
                 ]
             ];    

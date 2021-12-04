@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use App\Accounts\LedgerGroup;
 use Illuminate\Database\Seeder;
@@ -50,7 +51,7 @@ class LedgerGroupsTableSeeder extends Seeder
         'Suspense At',
         'Unsecured Loans'
         ];
-        foreach ($group_names as $group_name) {
+        foreach ($group_names_tally as $group_name) {
             LedgerGroup::create([
                 'name' => $group_name
             ]);

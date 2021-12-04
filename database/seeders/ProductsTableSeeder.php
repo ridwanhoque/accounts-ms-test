@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use App\Color;
 use App\Product;

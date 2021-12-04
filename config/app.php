@@ -123,6 +123,12 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'project_title' => 'POS',
+
+    'wastage_types' => [
+        'sheet_wastage', 'forming_wastage'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -1,7 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,7 +19,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
-            'remember_token' => str_random(10),
+            'remember_token' => Str::random(10),
             'company_id' => 1 
         ]);
     }

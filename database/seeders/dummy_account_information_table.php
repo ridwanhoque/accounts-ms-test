@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\AccountInformation;
 use Illuminate\Database\Seeder;
 use App\Company;

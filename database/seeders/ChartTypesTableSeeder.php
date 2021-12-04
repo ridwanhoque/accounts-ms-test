@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
 
+
+use Illuminate\Database\Seeder;
 use App\ChartType;
 
 class ChartTypesTableSeeder extends Seeder
