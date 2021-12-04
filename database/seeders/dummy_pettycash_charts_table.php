@@ -6,7 +6,7 @@ use App\PettycashChart;
 use App\Company;
 use App\User;
 
-class dummy_pettycash_charts__table extends Seeder
+class dummy_pettycash_charts_table extends Seeder
 {
     /**
      * Run the database seeds.
