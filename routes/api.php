@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+// Route::group(['middleware' => ['auth', 'api']], function()
+// {
+//     Route::get('sale/invoice_quantity', 'SaleController@ajax_invoice_quantity');
+// }
+// );
+
+Route::middleware('api')->group(function () {
+    Route::get('sale/invoice_quantity', 'SaleController@ajax_invoice_quantity');
+    Route::get('sheetproductiondetailsstock/sheet_kg_roll', 'SheetproductiondetailsStockController@ajax_sheet_kg_roll');
+    Route::get('product_stocks/get_product_stock', 'ProductStockController@ajax_get_product_stock');
+    Route::get('product_stocks/get_product_branch_stock', 'ProductStockController@ajax_get_product_branch_stock');
+    Route::get('payment_methods/get_payment_method', 'PaymentMethodController@ajax_get_payment_method');
+    Route::post('opening_sheet_save/qty_kgs', 'OpeningSheetController@ajax_qty_save');
+    Route::get('chart_of_accounts/get_charts', 'ChartOfAccountController@ajax_get_charts');
+    Route::get('chart_of_accounts/get_chart_data', 'ChartOfAccountController@ajax_get_chart_of_account_balance');
 });
