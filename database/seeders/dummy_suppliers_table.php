@@ -3,7 +3,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class dummy_suppliers__table extends Seeder
+class dummy_suppliers_table extends Seeder
 {
     /**
      * Run the database seeds.
