@@ -123,7 +123,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'project_title' => 'POS',
+    'project_title' => 'Accoount Management System',
 
     'wastage_types' => [
         'sheet_wastage', 'forming_wastage'
@@ -235,7 +235,36 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+         //custom
+        'Message' => App\Http\Helpers\MessageHelper::class,
+        'Formatter' => App\Http\Helpers\FormatHelper::class,
+        'Uploader' => App\Http\Helpers\UploadHelper::class,
 
     ],
+
+    'statuses' => [
+        1 => 'Active', 
+        2 => 'Inactive'
+    ],
+
+    //accounts default variables
+    'cash_bank_ids' => [2, 3],
+    
+    'owner_party' => 1,
+    'owner_bank' => 2,
+    'owner_cash' => 3,
+    'owner_chart_head' => 4,
+
+    'chart_income' => 1,
+    'chart_expense' => 2,
+    'chart_asset' => 3,
+    'chart_liability' => 4,
+
+    'tk' => 'Tk',
+    'kg' => 'Kg',
+    'roll' => 'Roll',
+    'yrs' => 'year(s)',
+    'pcs' => 'pcs'
+
 
 ];
