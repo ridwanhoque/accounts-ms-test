@@ -378,7 +378,7 @@
         </ul>
         </li> --}}
         <li
-                class="treeview {{ Request::segment(1) == 'temporary_daily_productions' ? 'is-expanded':'' || Request::segment(1) == 'daily_productions' ? 'is-expanded':'' }}">
+                class="treeview {{ Request::segment(1) == 'temporary_daily_productions' || Request::segment(1) == 'daily_productions' ? 'is-expanded':'' }}">
                 <a class="app-menu__item {{ Request::segment(1) == 'daily_productions' ? 'active':'' }}" href="#"
                         data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span
                                 class="app-menu__label">Finish
