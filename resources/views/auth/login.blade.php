@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 <label for="email" class="control-label">Email</label>
-                <input id="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" type="text" placeholder="Email" autofocus>
+                <input id="email" name="email" value="{{ old('email') ?: "admin@gmail.com" }}" class="form-control @error('email') is-invalid @enderror" type="text" placeholder="Email" autofocus>
 
                 @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
 
             <div class="form-group">
                 <label for="password" class="control-label">PASSWORD</label>
-                <input id="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror" type="password" placeholder="Password">
+                <input id="password" name="password" value="{{ old('password') ?: "12345678" }}" class="form-control @error('password') is-invalid @enderror" type="password" placeholder="Password">
 
                 @error('password')
                 <span class="invalid-feedback" role="alert">
