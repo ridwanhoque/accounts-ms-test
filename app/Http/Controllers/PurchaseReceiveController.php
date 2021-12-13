@@ -47,9 +47,9 @@ class PurchaseReceiveController extends Controller
         $currentUser = Auth::user();
         $purchase_exists = Purchase::where('company_id', $currentUser->company_id);
 
-        if ($purchase_exists->count() < 1) {
-            return \redirect('purchases')->with('error_message', 'Please create purchase order raw material!');
-        }
+        // if ($purchase_exists->count() < 1) {
+        //     return \redirect('purchases')->with('error_message', 'Please create purchase order raw material!');
+        // }
 
         // $purchases_test = Purchase::where('company_id', $currentUser->company_id)
         //     ->with(['purchase_details' => function($qry){

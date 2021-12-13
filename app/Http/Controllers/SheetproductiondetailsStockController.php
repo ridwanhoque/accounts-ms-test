@@ -9,14 +9,18 @@ class SheetproductiondetailsStockController extends Controller
 {
     public function report(){
         $sheetproductiondetails_stocks_exist = SheetproductiondetailsStock::first();
-        if($sheetproductiondetails_stocks_exist != null){
-            $sheetproductiondetails_stocks = SheetproductiondetailsStock::first()->sheet_material_stock()->get();
+        // if($sheetproductiondetails_stocks_exist != null)
+        {
+            $sheetproductiondetails_stocks = [];
+            if(SheetproductiondetailsStock::count() > 0){
+                $sheetproductiondetails_stocks = SheetproductiondetailsStock::first()->sheet_material_stock()->get();
+            }
   
             return view('admin.reports.sheet_material_stock', \compact('sheetproductiondetails_stocks'));
         }
-        else{
-            return \redirect('sheet_productions')->with('error_message', 'no stock');
-        }
+        // else{
+        //     return \redirect('sheet_productions')->with('error_message', 'no stock');
+        // }
     }
 
     public function sheet_size_color_stocks(){

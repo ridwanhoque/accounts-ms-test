@@ -69,14 +69,22 @@ use App\Http\Controllers\Accounts\PayableAccountsController;
 use App\Http\Controllers\Accounts\BalanceSheetController;
 use App\Http\Controllers\Accounts\IncomeExpenseController;
 use App\Http\Controllers\Accounts\ChartBalanceReportController;
-// use App\Http\Controllers\TemporarySheetProductionController;
-// use App\Http\Controllers\UserController;
-// use App\Http\Controllers\UserRoleController;
-// use App\Http\Controllers\VendorController;
-// use App\Http\Controllers\VoucherController;
-// use App\Http\Controllers\WastageController;
-// use App\Http\Controllers\AccountsDashboardController;
-// use App\Http\Controllers\AssetController;
+use App\Http\Controllers\RawMaterialStockBatchController;
+use App\Http\Controllers\SheetproductiondetailsStockController;
+use App\Http\Controllers\KutchaWastageStockController;
+use App\Http\Controllers\KutchaSummaryReportController;
+use App\Http\Controllers\HaddiPowderStockController;
+use App\Http\Controllers\ProductSummaryReportController;
+use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\ProductBranchStockController;
+use App\Http\Controllers\TemporaryDailyProductionController;
+use App\Http\Controllers\DailyProductionController;
+use App\Http\Controllers\ProductStockTransferController;
+// use App\Http\Controllers\KutchaSummaryReportController;
+// use App\Http\Controllers\HaddiPowderStockController;
+// use App\Http\Controllers\ProductSummaryReportController;
+// use App\Http\Controllers\ProductStockController;
+// use App\Http\Controllers\ProductBranchStockController;
 
 
 
