@@ -6,9 +6,13 @@
                 </div>
         </div>
         <ul class="app-menu">
-                <li><a class="app-menu__item {{ Request::is('home') ? 'active':'' }}" href="{{ url('/home') }}"><i
-                                        class="app-menu__icon fa fa-dashboard"></i><span
-                                        class="app-menu__label">Dashboard</span></a></li>
+                <li><a target="_blank" class="app-menu__item" href="https://docs-account-ms.herokuapp.com/"><i
+                        class="app-menu__icon fa fa-file"></i><span
+                        class="app-menu__label">Documentasion</span></a></li>
+
+                        <li><a class="app-menu__item {{ Request::is('home') ? 'active':'' }}" href="{{ url('/home') }}"><i
+                                class="app-menu__icon fa fa-dashboard"></i><span
+                                class="app-menu__label">Dashboard</span></a></li>
 
 
                 <li
