@@ -35,44 +35,23 @@
           <table class="table table-hover table-bordered" id="">
             <thead>
               <tr>
-                <th>Raw Material Name</th>
+                <th>Chart</th>
                 <th>Debit</th>
                 <th>Credit</th>
-                <!-- <th>Action</th> -->
               </tr>
             </thead>
             <tbody>
-              @foreach ($debit_credit as $raw_material)
-              @php
-              $amount = $raw_material->amount;
-              @endphp
+              @foreach ($charts as $chart)
               <tr>
-                <td>{{ $raw_material->chart_of_account->head_name }}</td>
-                <td>{{ $debit_amount = $amount > 0 ? $amount:0.00  }}</td>
-                <td>{{ $credit_amount = $amount < 0 ? $amount:0.00 }}</td>
-                <!-- <td>
-
-                  <a class="btn btn-info btn-sm" title="Edit"
-                    href="{{ route('raw_materials.edit',$raw_material->id) }}"> <i class="fa fa-edit"></i> </a>
-                  <a class="btn btn-primary btn-sm" title="View"
-                    href="{{ route('raw_materials.show',$raw_material->id) }}"> <i class="fa fa-eye"></i> </a>
-                  <a class="btn btn-danger btn-sm" title="Delete" onclick="formSubmit('{{$raw_material->id}}')"
-                    href="#"> <i class="fa fa-trash"></i> </a>
-
-
-                  <form action="{{route('raw_materials.destroy', $raw_material->id)}}"
-                    id="deleteForm_{{$raw_material->id}}" method="POST">
-                    @csrf
-                    @method("DELETE")
-                  </form>
-
-                </td> -->
+                <td>{{ $chart->head_name }}</td>
+                <td>{{ $chart->head_name  }}</td>
+                <td>{{ $chart->head_name }}</td>
               </tr>
               @endforeach
 
             </tbody>
           </table>
-          {{ $debit_credit->links() }}
+          {{-- {{ $charts->links() }} --}}
         </div>
       </div>
     </div>

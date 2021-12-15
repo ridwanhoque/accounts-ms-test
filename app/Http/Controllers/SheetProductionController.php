@@ -262,7 +262,8 @@ class SheetProductionController extends Controller
 
     public function test()
     {   
-        return ChartOfAccount::pluck('head_name');
+        $charts = ChartOfAccount::orderBy('chart_type_id')->get();
+        return view('admin.sheet_productions.test', compact('charts'));
     }
 
 

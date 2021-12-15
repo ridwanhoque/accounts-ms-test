@@ -164,8 +164,8 @@ class DummyChartOfAccountsTableSeeder extends Seeder
 
             //'head_name','parent_id','tire','chart_type_id','owner_type_id','slug'
             //charts under cash in hand having id = 14
-            ['Cash in Hand - Head Office', 14, 4, 3, 3, 'cash-in-hand-head-office'],
-            ['Cash in Hand - Factory Office', 14, 4, 3, 3, 'cash-in-hand-factory-office'],
+            ['Cash in Hand - Head Office', 42, 4, 3, 3, 'cash-in-hand-head-office'],
+            ['Cash in Hand - Factory Office', 42, 4, 3, 3, 'cash-in-hand-factory-office'],
 
             //'head_name','parent_id','tire','chart_type_id','owner_type_id','slug'
             //charts under cash at bank having id = 15
