@@ -29,14 +29,15 @@ class PaymentVoucherRepository implements CrudInterface
         
         $data['chart_of_accounts'] = ChartOfAccount::noChild()
 			->where('company_id', auth()->user()->company_id)
-            ->where('owner_type_id', config('app.owner_party'))
+            //owner party can be uncommented if need
+            // ->where('owner_type_id', config('app.owner_party'))
             // ->where('balance', '<', 0)
             ->pluck('head_name', 'id');
 
         $data['bank_cash_charts'] = ChartOfAccount::noChild()
 			->where('company_id', auth()->user()->company_id)
             ->whereIn('owner_type_id', config('app.cash_bank_ids'))
-            // ->where('balance', '>', 0)
+            ->where('balance', '>', 0)
             ->pluck('head_name', 'id');
 
            

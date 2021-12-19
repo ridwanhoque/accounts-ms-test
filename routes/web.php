@@ -80,10 +80,10 @@ use App\Http\Controllers\ProductBranchStockController;
 use App\Http\Controllers\TemporaryDailyProductionController;
 use App\Http\Controllers\DailyProductionController;
 use App\Http\Controllers\ProductStockTransferController;
-// use App\Http\Controllers\KutchaSummaryReportController;
-// use App\Http\Controllers\HaddiPowderStockController;
-// use App\Http\Controllers\ProductSummaryReportController;
-// use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\PettycashController;
+use App\Http\Controllers\PettycashDepositController;
+use App\Http\Controllers\PettycashExpenseController;
+use App\Http\Controllers\IncomeStatementController;
 // use App\Http\Controllers\ProductBranchStockController;
 
 
