@@ -6,10 +6,21 @@ use App\ChartOfAccount;
 use App\ChartType;
 use Illuminate\Http\Request;
 use App\OwnerType;
+use App\Repositories\Accounts\ChartOfAccountRepository;
 use phpDocumentor\Reflection\Types\Null_;
 
 class ChartOfAccountController extends Controller
 {
+
+    private $coa_repo;
+
+
+    public function __construct(ChartOfAccountRepository $coa_repo)
+    {   
+        $this->coa_repo = $coa_repo;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -77,9 +88,8 @@ class ChartOfAccountController extends Controller
         $chartOfAccount->save();
 
         if($request->parent_id > 0){
-            $this->update_parent_chart($request->parent_id, $opening_balance);
+            $this->coa_repo->update_parent_chart($request->parent_id, $opening_balance);
         }
-
 
         return redirect()->back()->with('massage','Chart Of Account added successful.');
 
@@ -130,6 +140,12 @@ class ChartOfAccountController extends Controller
         ]);
 
         $chartOfAccount = ChartOfAccount::find($id);
+
+        //update reverse chart of account amount
+        if($chartOfAccount->opening_balance <= 0){
+            $this->coa_repo->adjust_double_entry($chartOfAccount);
+        }
+
         $amount = $chartOfAccount->opening_balance > 0 ? 0:$request->opening_balance;
         if($request->parent_id > 0){
             $chart_tire = ChartOfAccount::find($request->parent_id);
@@ -137,6 +153,7 @@ class ChartOfAccountController extends Controller
         }else{
             $tire = 1;
         }        
+        $chart_opening = $chartOfAccount->opening_balance > 0 ? $chartOfAccount->opening_balance:$request->opening_balance;
         $chartOfAccount->type = $request->type;
         $chartOfAccount->head_name = $request->head_name;
         // $chartOfAccount->account_code = $request->account_code;
@@ -144,13 +161,13 @@ class ChartOfAccountController extends Controller
         $chartOfAccount->parent_id = $request->parent_id;
         $chartOfAccount->tire = $tire;
         $chartOfAccount->increment('balance', $amount);
-        $chartOfAccount->opening_balance = $chartOfAccount->opening_balance > 0 ? $chartOfAccount->opening_balance:$request->opening_balance;
+        $chartOfAccount->opening_balance = $chart_opening;
         $chartOfAccount->is_posting = $request->is_posting;
         $chartOfAccount->chart_type_id = $request->chart_type_id;
         $chartOfAccount->owner_type_id = $request->owner_type_id;
 
         if($request->parent_id > 0){
-            $this->update_parent_chart($request->parent_id, $amount);
+            $this->coa_repo->update_parent_chart($request->parent_id, $amount);
         }
 
         $chartOfAccount->save();
@@ -228,18 +245,7 @@ class ChartOfAccountController extends Controller
         }
     }
 
-    public function update_parent_chart($parent_chart_id, $amount){
-        
-        $parent_chart = ChartOfAccount::find($parent_chart_id);
-        $parent_chart->increment('balance', $amount);
-        $parent_chart->save();
-
-        if($parent_chart->parent_id > 0){
-            $this->update_parent_chart($parent_chart->parent_id, $amount);
-        }
-
-        return true;
-    }
+    
 
 
 }

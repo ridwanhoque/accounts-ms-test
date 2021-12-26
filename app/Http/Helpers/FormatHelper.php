@@ -28,7 +28,15 @@ class FormatHelper{
     public static function checkAccountingSettingsUrl($url){
         $accounting_settings_urls = 
         [
-            'chart-of-account', 'account-information', 'payment-method', 'vendor', 'party', 'pettycash_charts', 'asset_charts', 'opening_assets'
+            'chart-of-account', 
+            'account-information', 
+            'payment-method', 
+            'vendors', 
+            'party', 
+            'pettycash_charts', 
+            'asset_charts', 
+            'opening_assets',
+            'chart_of_accounts'
         ];
 
         return in_array($url, $accounting_settings_urls) ? 'is-expanded':'';

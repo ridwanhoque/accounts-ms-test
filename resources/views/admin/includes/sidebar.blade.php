@@ -15,72 +15,6 @@
                                 class="app-menu__label">Dashboard</span></a></li>
 
 
-                <li
-                        class="treeview {{ Request::is('reports/accounts_dashboard') ? 'is-expanded':Formatter::checkAccountingUrl(Request::segment(1)) }}">
-                        <a class="app-menu__item" href="#" data-toggle="treeview"><i
-                                        class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Account
-                                        and Finance</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-                        <ul class="treeview-menu">
-                                <li><a class="treeview-item {{ Request::is('report/accounts_dashboard') ? 'active':'' }}"
-                                                href="{{ url('reports/accounts_dashboard')}}"><i
-                                                        class="icon fa fa-book"></i>
-                                                Accounts Dashboard </a>
-                                </li>
-                                <li><a class="treeview-item" href="{{ route('assets.create')}}"><i
-                                                        class="icon fa fa-circle-o"></i> Add Asset </a>
-                                </li>
-                                <li><a class="treeview-item" href="{{ route('assets.store')}}"><i
-                                                        class="icon fa fa-circle-o"></i> Asset List</a></li>
-
-
-                                <li>
-                                        <a class="treeview-item {{ Request::is('payment_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('payment_vouchers.create') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Add Payment Voucher </a>
-                                </li>
-                                <li>
-                                        <a class="treeview-item {{ Request::is('payment_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('payment_vouchers.index') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Payment Voucher List</a>
-                                </li>
-                                <li>
-                                        <a class="treeview-item {{ Request::is('receive_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('receive_vouchers.create') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Add Receive Voucher </a>
-                                </li>
-                                <li>
-                                        <a class="treeview-item {{ Request::is('receive_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('receive_vouchers.index') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Receive Voucher List</a>
-                                </li>
-
-                                <li>
-                                        <a class="treeview-item {{ Request::is('journal_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('journal_vouchers.create') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Add Journal Voucher </a>
-                                </li>
-                                <li>
-                                        <a class="treeview-item {{ Request::is('journal_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('journal_vouchers.index') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Journal Voucher List</a>
-                                </li>
-
-                                <li>
-                                        <a class="treeview-item {{ Request::is('contra_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('contra_vouchers.create') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Add Contra /
-                                                Transfer </a>
-                                </li>
-                                <li>
-                                        <a class="treeview-item {{ Request::is('contra_vouchers/create') ? 'active':'' }}"
-                                                href="{{ route('contra_vouchers.index') }}"><i
-                                                        class="icon fa fa-circle-o"></i> Contra /
-                                                Transfer List</a>
-                                </li>
-
-
-                        </ul>
-                </li>
 
                 <li class="treeview {{ Formatter::checkAccountingSettingsUrl(Request::segment(1)) }}"><a
                                 class="app-menu__item" href="#" data-toggle="treeview"><i
@@ -116,6 +50,71 @@
 
 
 
+
+
+                <li
+                        class="treeview {{ Request::segment(1) == 'accounting' ? 'is-expanded':'' }}">
+                        <a class="app-menu__item" href="#" data-toggle="treeview"><i
+                                        class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Account
+                                        and Finance</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                        <ul class="treeview-menu">
+                                <li><a class="treeview-item {{ Request::is('accounting/assets/create') ? 'active':'' }}" href="{{ route('assets.create')}}"><i
+                                                        class="icon fa fa-circle-o"></i> Add Asset </a>
+                                </li>
+                                <li><a class="treeview-item {{ Request::is('accounting/assets') ? 'active':'' }}" href="{{ route('assets.store')}}"><i
+                                                        class="icon fa fa-circle-o"></i> Asset List</a></li>
+
+
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/payment_vouchers/create') ? 'active':'' }}"
+                                                href="{{ route('payment_vouchers.create') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Add Payment Voucher </a>
+                                </li>
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/payment_vouchers') ? 'active':'' }}"
+                                                href="{{ route('payment_vouchers.index') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Payment Voucher List</a>
+                                </li>
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/receive_vouchers/create') ? 'active':'' }}"
+                                                href="{{ route('receive_vouchers.create') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Add Receive Voucher </a>
+                                </li>
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/receive_vouchers') ? 'active':'' }}"
+                                                href="{{ route('receive_vouchers.index') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Receive Voucher List</a>
+                                </li>
+
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/journal_vouchers/create') ? 'active':'' }}"
+                                                href="{{ route('journal_vouchers.create') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Add Journal Voucher </a>
+                                </li>
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/journal_vouchers') ? 'active':'' }}"
+                                                href="{{ route('journal_vouchers.index') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Journal Voucher List</a>
+                                </li>
+
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/contra_vouchers/create') ? 'active':'' }}"
+                                                href="{{ route('contra_vouchers.create') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Add Contra /
+                                                Transfer </a>
+                                </li>
+                                <li>
+                                        <a class="treeview-item {{ Request::is('accounting/contra_vouchers') ? 'active':'' }}"
+                                                href="{{ route('contra_vouchers.index') }}"><i
+                                                        class="icon fa fa-circle-o"></i> Contra /
+                                                Transfer List</a>
+                                </li>
+
+
+                        </ul>
+                </li>
+
+
                 <!--  MIS Report starts -->
                 <li class="treeview {{ Request::segment(1) == 'reports' ? 'is-expanded':'' }}"><a
                                 class="app-menu__item {{ Request::segment(1) == 'reports' }}" href="#"
@@ -124,7 +123,12 @@
                                         Report</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                         <ul class="treeview-menu">
                                 {{-- accounts report --}}
-                                <li> <a href="#" class="treeview-item">--- Accounts Report ---</a></li>
+                                
+                                <li><a class="treeview-item {{ Request::is('reports/accounts_dashboard') ? 'active':'' }}"
+                                        href="{{ url('reports/accounts_dashboard')}}"><i
+                                                class="icon fa fa-book"></i>
+                                        Accounts Dashboard </a>
+                                </li>
                                 <li><a class="treeview-item {{ Request::is('reports/trial_balance') ? 'active':'' }}"
                                                 href="{{ url('reports/trial_balance') }}"><i
                                                         class="icon fa fa-book"></i>
@@ -171,14 +175,12 @@
                 </li>
 
 
-        </ul>
-        </li>
         <!-- MIS Report Ends  -->
 
 
 
 
-        <li class="treeview {{ Request::segment(1) == 'users' ? 'is-expanded':'' }}"><a
+        {{-- <li class="treeview {{ Request::segment(1) == 'users' ? 'is-expanded':'' }}"><a
                         class="app-menu__item {{ Request::segment(1) == 'users' }}" href="#" data-toggle="treeview"><i
                                 class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">User</span><i
                                 class="treeview-indicator fa fa-angle-right"></i></a>
@@ -212,14 +214,11 @@
                         <li><a class="treeview-item {{ Request::is('companies') ? 'active':'' }}"
                                         href="{{ route('companies.index') }}"><i class="icon fa fa-circle-o"></i>
                                         Company List </a>
-                        </li>
+                        </li> --}}
                         {{-- <li><a class="treeview-item {{ Request::is('companies/create') ? 'active':'' }}"
                         href="{{ route('companies.create') }}"><i class="icon fa fa-circle-o"></i>Add
                         Company</a>
         </li>--}}
-        </ul>
-        </li>
-
         </ul>
 </aside>
 

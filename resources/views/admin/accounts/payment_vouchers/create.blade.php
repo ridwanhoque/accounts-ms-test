@@ -268,9 +268,9 @@
                                         <td>
                                             <select name="debit_chart_ids[]" class="form-control select_1" onchange="show_debit_balance(this)">
                                                 <option value="">- Select Chart Of Account -</option>
-                                                @foreach($data['chart_of_accounts'] as $id => $name)
-                                                <option value="{{ $id }}" {{ old('debit_chart_ids')[$debit_key] == $id ? 'selected':'' }}>
-                                                    {{ $name }}</option>
+                                                @foreach($data['chart_of_accounts'] as $k => $chart)
+                                                <option value="{{ $chart->id }}" {{ old('debit_chart_ids')[$debit_key] == $chart->id ? 'selected':'' }}>
+                                                    {{ $chart->head_name }}</option>
                                                 @endforeach
 
                                             </select>
@@ -295,9 +295,13 @@
                                         <td width="30%">
                                             <select name="debit_chart_ids[]" class="form-control select_1 small_input_box" onchange="show_debit_balance(this)">
                                                 <option value="">- Select Chart Of Account -</option>
-                                                @foreach($data['chart_of_accounts'] as $id => $name)
-                                                <option value="{{ $id }}">
-                                                    {{ $name }}</option>
+                                                
+                                                @foreach($data['chart_of_accounts'] as $chart)
+                                                <option value="{{ $chart->id }}">
+                                                    {{-- {{  $chart->tire > 0 ? ('|'.str_repeat('_', $chart->tire)):'' }}
+                                                    {{ $chart->account_code.'-'.$chart->head_name }} --}}
+                                                    {{ $chart->head_name ?? '' }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </td>
