@@ -15,6 +15,9 @@ class ChartOfAccountRepository
         $parent_chart_id = request()->parent_id;
         $amount = request()->opening_balance;
 
+        //default need to be changed
+        $chart_to_be_updated = 45;
+
         switch ($chart_of_account->owner_type_id) {
             case 2:
                 $chart_to_be_updated = 45;

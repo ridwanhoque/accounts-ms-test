@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use App\Transaction;
-
+use Formatter;
 
 //use Your Model
 
@@ -83,8 +83,15 @@ class JournalVoucherRepository implements CrudInterface
     public function save_credit_chart_of_account($credit_chart_id, $credit_amount){
        
             $chart_of_account = ChartOfAccount::find($credit_chart_id);
-            $chart_of_account->increment('balance', $credit_amount);
+            //if asset or expense is credit type then decrease
+            Formatter::checkAssetExpense($chart_of_account->chart_type_id) ?
+                    $chart_of_account->decrement('balance', $credit_amount):
+                    $chart_of_account->increment('balance', $credit_amount);
 
+            $credit_parent_id = $chart_of_account->parent_id;
+            if($credit_parent_id > 0){
+                $this->save_credit_chart_of_account($credit_parent_id, $credit_amount);
+            }
         return true;
     }
 
@@ -105,7 +112,15 @@ class JournalVoucherRepository implements CrudInterface
     public function save_debit_chart_of_account($debit_chart_id, $debit_amount){
                
             $chart_of_account = ChartOfAccount::find($debit_chart_id);
-            $chart_of_account->decrement('balance', $debit_amount);
+            //if asset or expense debited then increase
+            Formatter::checkAssetExpense($chart_of_account->chart_type_id) ?
+                    $chart_of_account->increment('balance', $debit_amount):
+                    $chart_of_account->decrement('balance', $debit_amount);
+
+            $debit_parent_id = $chart_of_account->parent_id;
+            if($debit_parent_id > 0){
+                $this->save_debit_chart_of_account($debit_parent_id, $debit_amount);
+            }
 
         return true;
     }

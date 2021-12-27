@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','Journal Voucher')
+@section('title','Payment Voucher')
 @section('content')
 <style>
     .select2-selection__rendered {
@@ -22,7 +22,7 @@
 <main class="app-content">
 
 
-    <form class="form-horizontal" method="POST" action="{{ route('journal_vouchers.store') }}">
+    <form class="form-horizontal" method="POST" action="{{ route('payment_vouchers.store') }}">
         @csrf
         <input type="hidden" name="account_balance" id="account_balance" value="0">
         <input type="hidden" name="voucher_type" value="{{ request()->type }}">
@@ -60,7 +60,7 @@
             <div class="col-md-12">
 
                 <div class="tile">
-                    <a href="{{ route('journal_vouchers.index') }}" class="btn btn-primary" style="float: right;"><i class="fa fa-list"></i> Voucher List</a>
+                    <a href="{{ route('payment_vouchers.index') }}" class="btn btn-primary" style="float: right;"><i class="fa fa-list"></i> Voucher List</a>
                     <h3 class="tile-title"><i class="fa fa-plus"></i> &nbsp; Add New @yield('title')</h3>
                     <hr>
                     <div class="tile-body">
@@ -74,9 +74,9 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-inline">
                                                     <label class="pr-3">Date</label>
-                                                    <input id="journal_date" name="journal_date" readonly value="{{ date('Y-m-d') }}" type="text" class="form-control small_input_box @error('journal_date') is-invalid @enderror" placeholder="Journal Date">
+                                                    <input id="payment_date" name="payment_date" readonly value="{{ date('Y-m-d') }}" type="text" class="form-control small_input_box @error('payment_date') is-invalid @enderror" placeholder="Payment Date">
 
-                                                    @error('journal_date')
+                                                    @error('payment_date')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
@@ -124,91 +124,50 @@
                             </div>
                         </div>
                         <br>
-                        
+                        {{-- <div class="row">
+                            <div class="col-sm-10 offset-md-1">
+                                <div class="row">
 
 
+                                    <div class="col-md-3">
 
-                        <div class="row">
+                                        <label for="chart_of_account_id" class="control-label col-md-4">Account</label>
+                                        <div class="col-md-8">
+                                            <div class="form-group row">
+                                                <select name="chart_of_account_id" class="form-control small_input_box" onchange="show_credit_balance(this)">
+                                                    <option value="">select</option>
+                                                    @foreach($data['bank_cash_charts'] as $id => $name)
+                                                    <option value="{{ $id }}" {{ $id == old('chart_of_account_id') ? 'selected':'' }}>
+                                                        {{ $name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
-                            <div class="col-md-10 offset-md-1">
-                                <table class="no-spacing" id="debit_table">
-                                    <tr>
-                                        <th>Chart of Account</th>
-                                        <th>Balance</th>
-                                        <th>Description</th>
-                                        <th>Debit</th>
-                                        <th></th>
-                                    </tr>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label for="balance" class="control-label col-md-4">Balance</label>
+                                            <div class="col-md-8">
+                                                <input id="credit_balance" name="credit_balance" value="{{ old('credit_balance') }}" type="number" class="small_input_box form-control @error('credit_balance') is-invalid @enderror" placeholder="Balance" readonly="readonly">
+                                            </div>
+                                        </div>
 
-                                    @if(old('debit_chart_ids'))
 
-                                    @foreach(old('debit_chart_ids') as $debit_key => $debit_chart_id)
-                                    <tr>
-                                        <td>
-                                            <select name="debit_chart_ids[]" class="form-control select_1" onchange="show_debit_balance(this)">
-                                                <option value="">- Select Chart Of Account -</option>
-                                                @foreach($data['chart_of_accounts'] as $id => $name)
-                                                <option value="{{ $id }}" {{ old('debit_chart_ids')[$debit_key] == $id ? 'selected':'' }}>
-                                                    {{ $name }}</option>
-                                                @endforeach
+                                    </div>
 
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control small_input_box debit_balance" readonly="readonly" name="debit_balance[]" value="{{ old('debit_balance')[$debit_key] }}">
-                                        </td>
-                                        <td width="30%">
-                                            <input name="debit_description[]" class="form-control small_input_box" type="text" placeholder="Description" value="{{ old('debit_description')[$debit_key] ?: '' }}">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control small_input_box debit_amount" name="debit_amount[]" placeholder="0.00" onkeyup="show_total_debit(this)" value="{{ old('debit_amount')[$debit_key] }}">
-                                        </td>
-                                        <td>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label for="note" class="control-label col-md-4">Credit</label>
+                                            <div class="col-md-8">
+                                                <input id="credit_amount" name="credit_amount" readonly="readonly" value="{{ old('credit_amount') ?? 0 }}" type="number" class="form-control small_input_box @error('credit_amount') is-invalid @enderror" placeholder="Amount">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                    @else
-                                    <tr>
-                                        <td width="30%">
-                                            <select name="debit_chart_ids[]" class="form-control select_1 small_input_box" onchange="show_debit_balance(this)">
-                                                <option value="">- Select Chart Of Account -</option>
-                                                @foreach($data['chart_of_accounts'] as $id => $name)
-                                                <option value="{{ $id }}">
-                                                    {{ $name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control small_input_box debit_balance" readonly="readonly" name="debit_balance[]">
-                                        </td>
-                                        <td width="30%">
-                                            <input name="debit_description[]" class="form-control small_input_box" type="text" placeholder="Description">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control small_input_box debit_amount" name="debit_amount[]" placeholder="0.00" onkeyup="show_total_debit(this)">
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                    </tr>
-                                    @endif
-
-                                </table>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-10 offset-md-1">
-                                <div class="col-md-12">
-                                    <span class="fa fa-plus btn btn-sm btn-success pull-right pointer small_input_button addRow" id="add_row"></span>
                                 </div>
                             </div>
-                        </div>
-
-
+                        </div> --}}
 
                         <div class="row">
 
@@ -229,7 +188,7 @@
                                             <td>
                                                 <select name="credit_chart_ids[]" class="form-control select_1" onchange="show_credit_balance(this)">
                                                     <option value="">- Select Chart Of Account -</option>
-                                                    @foreach($data['chart_of_accounts'] as $id => $name)
+                                                    @foreach($data['bank_cash_charts'] as $id => $name)
                                                     <option value="{{ $id }}" {{ old('credit_chart_ids')[$key] == $id ? 'selected':'' }}>
                                                         {{ $name }}</option>
                                                     @endforeach
@@ -256,7 +215,7 @@
                                             <td width="30%">
                                                 <select name="credit_chart_ids[]" class="form-control select_1 small_input_box" onchange="show_credit_balance(this)">
                                                     <option value="">- Select Chart Of Account -</option>
-                                                    @foreach($data['chart_of_accounts'] as $id => $name)
+                                                    @foreach($data['bank_cash_charts'] as $id => $name)
                                                     <option value="{{ $id }}">
                                                         {{ $name }}</option>
                                                     @endforeach
@@ -290,6 +249,89 @@
                                 </div>
                             </div>
     
+                        <div class="row">
+
+                            <div class="col-md-10 offset-md-1">
+                                <table class="no-spacing" id="debit_table">
+                                    <tr>
+                                        <th>Chart of Account</th>
+                                        <th>Balance</th>
+                                        <th>Description</th>
+                                        <th>Debit</th>
+                                        <th></th>
+                                    </tr>
+
+                                    @if(old('debit_chart_ids'))
+
+                                    @foreach(old('debit_chart_ids') as $debit_key => $debit_chart_id)
+                                    <tr>
+                                        <td>
+                                            <select name="debit_chart_ids[]" class="form-control select_1" onchange="show_debit_balance(this)">
+                                                <option value="">- Select Chart Of Account -</option>
+                                                @foreach($data['chart_of_accounts'] as $id => $name)
+                                                <option value="{{ $chart->id }}" {{ old('debit_chart_ids')[$debit_key] == $chart_id ? 'selected':'' }}>
+                                                    {{ $chart->head_name }}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control small_input_box debit_balance" readonly="readonly" name="debit_balance[]" value="{{ old('debit_balance')[$debit_key] }}">
+                                        </td>
+                                        <td width="30%">
+                                            <input name="debit_description[]" class="form-control small_input_box" type="text" placeholder="Description" value="{{ old('debit_description')[$debit_key] ?: '' }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control small_input_box debit_amount" name="debit_amount[]" placeholder="0.00" onkeyup="show_total_debit(this)" value="{{ old('debit_amount')[$debit_key] }}">
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
+                                    @else
+                                    <tr>
+                                        <td width="30%">
+                                            <select name="debit_chart_ids[]" class="form-control select_1 small_input_box" onchange="show_debit_balance(this)">
+                                                <option value="">- Select Chart Of Account -</option>
+                                                
+                                                @foreach($data['chart_of_accounts'] as $chart)
+                                                <option value="{{ $chart->id }}">
+                                                    {{-- {{  $chart->tire > 0 ? ('|'.str_repeat('_', $chart->tire)):'' }}
+                                                    {{ $chart->account_code.'-'.$chart->head_name }} --}}
+                                                    {{ $chart->head_name ?? '' }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control small_input_box debit_balance" readonly="readonly" name="debit_balance[]">
+                                        </td>
+                                        <td width="30%">
+                                            <input name="debit_description[]" class="form-control small_input_box" type="text" placeholder="Description">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control small_input_box debit_amount" name="debit_amount[]" placeholder="0.00" onkeyup="show_total_debit(this)">
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    @endif
+
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
+                                    <span class="fa fa-plus btn btn-sm btn-success pull-right pointer small_input_button addRow" id="add_row"></span>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <br>
@@ -297,15 +339,15 @@
                             <div class="col-md-12">
                                     <table class="no-spacing pull-right">
                                             <tr>
-                                                <td>Total Debit</td>
-                                                <td>
-                                                    <input type="number" class="form-control small_input_box" id="total_debit_amount" name="total_debit_amount" value="{{ old('total_debit_amount') }}" readonly="readonly">
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td>Total Credit</td>
                                                 <td>
                                                     <input type="number" class="form-control small_input_box" id="total_credit_amount" name="total_credit_amount" value="{{ old('total_credit_amount') }}" readonly="readonly">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Debit</td>
+                                                <td>
+                                                    <input type="number" class="form-control small_input_box" id="total_debit_amount" name="total_debit_amount" value="{{ old('total_debit_amount') }}" readonly="readonly">
                                                 </td>
                                             </tr>
                                         </table>
@@ -436,7 +478,7 @@
    
        var table = document.getElementById(tableId);
        var tr = '<tr>' +
-           '<td><select class=\"form-control select_' + i + '\" name=\"credit_chart_ids[]\" onchange=\"show_credit_balance(this)\"><option value=\"\">- Select Chart Of Account -</option> @foreach($data["chart_of_accounts"] as $id => $name)\n' +
+           '<td><select class=\"form-control select_' + i + '\" name=\"credit_chart_ids[]\" onchange=\"show_credit_balance(this)\"><option value=\"\">- Select Chart Of Account -</option> @foreach($data["bank_cash_charts"] as $id => $name)\n' +
            '                                                        <option value="{{ $id }}">{{ $name }}</option>\n' +
            '                                                    @endforeach</select></td>' +
            '<td><input type=\"number\" class=\"form-control small_input_box credit_balance\" readonly=\"readonly\" name=\"credit_balance[]\"></td>' +

@@ -181,6 +181,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\HelperServiceProvider::class,
 
     ],
 
@@ -262,6 +263,11 @@ return [
     'chart_expense' => 2,
     'chart_asset' => 3,
     'chart_liability' => 4,
+
+    'receivable_chart_id' => 35,
+    'payable_chart_id' => 51,
+
+
 
     'tk' => 'Tk',
     'kg' => 'Kg',

@@ -84,11 +84,11 @@
                             @foreach($payable_accounts as $payable_account)
                             <tr>
                                 <td>
-                                    <a href="{{ url('accounting/payment_vouchers/create') }}">
+                                    <a href="{{ url('reports/payable_accounts', $payable_account->id) }}">
                                         {{ $payable_account->head_name }}
                                     </a>
                                 </td>
-                                <td>{{ Formatter::addComma($payable_account->balance*(-1)) }}</td>
+                                <td>{{ Formatter::addComma($payable_account->balance) }}</td>
                             </tr>
                             @endforeach
 

@@ -101,7 +101,7 @@ class ChartOfAccountTableSeeder extends Seeder
                 //income
                 ['Sales', null, 1, 1, 4, 'sales', '1000001'], //1
                 ['Purchase Return', null, 1, 1, 4, 'purchase-return', '1000002'], //2
-                ['Other Income', null, 1, 1, 4, 'other-incomed', '1000003'], //3
+                ['Other Income', null, 1, 1, 4, 'other-income', '1000003'], //3
                     
                 //expense
                 ['Purchase', null, 1, 2, 4, 'purchase', '2000004'],//4

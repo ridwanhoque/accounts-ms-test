@@ -259,8 +259,8 @@ Route::group(['middleware' => 'auth'], function () {
         //Accounts Report
         Route::get('balance_sheet', [BalanceSheetController::class, 'report']);
         Route::get('income_expense', [IncomeExpenseController::class, 'report']);
-        Route::get('receivable_accounts', [ReceivableAccountsController::class, 'report']);
-        Route::get('payable_accounts', [PayableAccountsController::class, 'report']);
+        Route::get('receivable_accounts/{id?}', [ReceivableAccountsController::class, 'report']);
+        Route::get('payable_accounts/{id?}', [PayableAccountsController::class, 'report']);
         Route::get('ledger_balance', [LedgerBalanceReportController::class, 'report']);
         Route::get('trial_balance', [TrialBalanceController::class, 'report']);
         Route::get('trial_balance/{id}', [TrialBalanceController::class, 'details']);

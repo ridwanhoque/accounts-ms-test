@@ -181,6 +181,17 @@ class DummyChartOfAccountsTableSeeder extends Seeder
             ['Southeast Bank -3692', 43, 4,  3, 2],
             ['Standard Bank Ltd.(1836)', 43, 4,  3, 2],
 
+            //'head_name','parent_id','tire','chart_type_id','owner_type_id','slug'
+            //charts under Advance, Deposits and Pre-payments having id = 28
+            ['Supply', 28, 3, 3, 4, 'supply'],
+            //charts under Other Income having id = 3
+            ['Revenue', 3, 2, 1, 4, 'revenue'],
+            //charts under Administrative  Expenses having id = 9
+            ['Salary', 9, 2,  2, 4, 'salary'],
+            ['Withdraw', 9, 2, 2, 4, 'withdraw'],
+            //charts under Other Payable having id = 53
+            ['Note payable', 53, 3, 4, 4, 'note-payable'],
+
 
             
         ];

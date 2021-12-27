@@ -51,7 +51,8 @@
                       <tr>
                         <th>Chart Of Account</th>
                         <th>Description</th>
-                        <th class="text-right">Amount</th>
+                        <th class="text-right">Debit</th>
+                        <th class="text-right">Credit</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -59,18 +60,20 @@
                       <tr>
                         <td>{{ $details->chart_of_account->head_name ?? '' }}</td>
                         <td>{{ $details->description }}</td>
-                        <td class="text-right">{{ $details->amount }}</td>
+                        <td class="text-right">{{ Formatter::checkAssetExpense($details->chart_of_account->chart_type_id) ? $details->amount:'0.00' }}</td>
+                        <td class="text-right">{{ !Formatter::checkAssetExpense($details->chart_of_account->chart_type_id) ? $details->amount:'0.00' }}</td>
                       </tr>
                       @endforeach
                       <tr>
-                        <td colspan="3" style="text-align:right">Total : <strong>{{ $journal_voucher->amount }} {{ config('app.tk') }}</strong></td>
+                        <td colspan="3" class="text-right"><strong>{{ $journal_voucher->amount }}</strong></td>
+                        <td class="text-right"><strong>{{ $journal_voucher->amount }}</td>
                       </tr>
                       <tr>
-                        <td colspan="3">&nbsp;</td>
+                        <td colspan="4">&nbsp;</td>
                       </tr>
                       <tr>
                         <td> <b> {{ $journal_voucher->chart_of_account->head_name ?? '' }} </b><br> <br><br> <hr>Signature and Date</td>
-                        <td>&nbsp;</td>
+                        <td colspan="2">&nbsp;</td>
                         <td style="text-align:right"> <b>Issued By : {{ $journal_voucher->company->name }} </b> <br> <br> <br> <hr> Signature and Date</td>
                       </tr>
                       <tr></tr>

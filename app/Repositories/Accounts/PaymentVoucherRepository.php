@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use App\Transaction;
-
+use Formatter;
 
 //use Your Model
 
@@ -34,7 +34,7 @@ class PaymentVoucherRepository implements CrudInterface
             //owner party can be uncommented if need
             // ->where('owner_type_id', config('app.owner_party'))
             // ->where('balance', '<', 0)
-            ->get();
+            ->pluck('head_name', 'id');
 
         $data['bank_cash_charts'] = ChartOfAccount::noChild()
 			->where('company_id', auth()->user()->company_id)
@@ -107,7 +107,15 @@ class PaymentVoucherRepository implements CrudInterface
     public function save_credit_chart_of_account($credit_chart_id, $credit_amount){
        
             $chart_of_account = ChartOfAccount::find($credit_chart_id);
-            $chart_of_account->decrement('balance', $credit_amount);
+            Formatter::checkAssetExpense($chart_of_account->chart_type_id) ? 
+                    $chart_of_account->decrement('balance', $credit_amount):
+                    $chart_of_account->increment('balance', $credit_amount);
+            
+            //update all parent chart of accounts as it effects upto top tire i.e. tire 1
+            $credit_parent_id = $chart_of_account->parent_id;
+            if($credit_parent_id > 0){
+                $this->save_credit_chart_of_account($credit_parent_id, $credit_amount);
+            }
 
         return true;
     }
@@ -145,7 +153,15 @@ class PaymentVoucherRepository implements CrudInterface
     public function save_debit_chart_of_account($debit_chart_id, $debit_amount){
                
             $chart_of_account = ChartOfAccount::find($debit_chart_id);
-            $chart_of_account->increment('balance', $debit_amount);
+            Formatter::checkAssetExpense($chart_of_account->chart_type_id) ?
+                    $chart_of_account->increment('balance', $debit_amount):
+                    $chart_of_account->decrement('balance', $debit_amount);
+
+            //update all parent chart of accounts as it effects upto top tire i.e. tire 1
+            $debit_parent_id = $chart_of_account->parent_id;
+            if($debit_parent_id > 0){
+                $this->save_debit_chart_of_account($debit_parent_id, $debit_amount);
+            }
 
         return true;
     }
@@ -166,29 +182,6 @@ class PaymentVoucherRepository implements CrudInterface
             'chart_of_account_id' => $chart_id,
             'amount' => $is_credit == 1 ? $chart_amount*(-1):$chart_amount
         ]);
-
-        return true;
-    }
-
-    public function save_credit_chart_of_account_parents($credit_chart_id, $credit_amount){
-        $parent_chart = ChartOfAccount::find($credit_chart_id);
-        $parent_chart->decrement('balance',$credit_amount);
-
-        if($parent_chart->parent_id > 0){
-            $this->save_credit_chart_of_account_parents($parent_chart->parent_id, $credit_amount);
-        }
-
-        return true;
-    }
-
-    
-    public function save_debit_chart_of_account_parents($debit_chart_id, $debit_amount){
-        $parent_chart = ChartOfAccount::find($debit_chart_id);
-        $parent_chart->increment('balance', $debit_amount);
-
-        if($parent_chart->parent_id > 0){
-            $this->save_debit_chart_of_account_parents($parent_chart->parent_id, $debit_amount);
-        }
 
         return true;
     }
@@ -214,13 +207,10 @@ class PaymentVoucherRepository implements CrudInterface
                 $this->save_payment_voucher_details($payment_voucher, $credit_chart_id, $credit_description, $credit_amount);
 
                 //update chart_of account current balance
-                // $this->save_credit_chart_of_account($credit_chart_id, $credit_amount);
+                $this->save_credit_chart_of_account($credit_chart_id, $credit_amount);
 
                 //store datewise credit credit into chart of account balance table
                 $this->save_credit_chart_of_account_balance($credit_chart_id, $credit_amount);
-
-                //update all parent chart of accounts as it effects upto top tire i.e. tire 1
-                $this->save_credit_chart_of_account_parents($credit_chart_id, $credit_amount);
 
                 //store into transaction details table
                 $this->save_transaction_details($transaction, $credit_chart_id, $credit_amount, 1);
@@ -236,13 +226,10 @@ class PaymentVoucherRepository implements CrudInterface
                 $this->save_payment_voucher_details($payment_voucher, $debit_chart_id, $debit_description, $debit_amount);
 
                 //update chart_of account current balance
-                // $this->save_debit_chart_of_account($debit_chart_id, $debit_amount);
+                $this->save_debit_chart_of_account($debit_chart_id, $debit_amount);
 
                 //store datewise debit credit into chart of account balance table
                 $this->save_debit_chart_of_account_balance($debit_chart_id, $debit_amount);
-
-                //update all parent chart of accounts as it effects upto top tire i.e. tire 1
-                $this->save_debit_chart_of_account_parents($debit_chart_id, $debit_amount);
 
                 //store into transaction details table
                 $this->save_transaction_details($transaction, $debit_chart_id, $debit_amount);

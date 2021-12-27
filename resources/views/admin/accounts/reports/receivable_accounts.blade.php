@@ -82,7 +82,7 @@
 
                             @foreach($receivable_accounts as $receivable_account)
                                 <tr>
-                                    <td><a href="{{ url('accounting/receive_vouchers/create') }}">
+                                    <td><a href="{{ url('reports/receivable_accounts', $receivable_account->id) }}">
                                         {{ $receivable_account->head_name }}
                                     </a></td>
                                     <td>{{ Formatter::addComma($receivable_account->balance) }}</td>

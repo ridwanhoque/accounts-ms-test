@@ -90,4 +90,11 @@ class FormatHelper{
         $poysa = ($decimal) ? " and " . ($words[$decimal / 10] . " " . $words[$decimal % 10]) . ' poysa' : '';
         return ($Taka ? $Taka . 'taka ' : '') . $poysa ;
     }
+
+
+    public static function checkAssetExpense($chart_type){
+        return $chart_type == config('app.chart_asset') ? true:
+            ($chart_type  == config('app.chart_expense') ? true:false);
+    }
+
 }
