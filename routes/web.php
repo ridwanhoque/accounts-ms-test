@@ -262,6 +262,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('receivable_accounts/{id?}', [ReceivableAccountsController::class, 'report']);
         Route::get('payable_accounts/{id?}', [PayableAccountsController::class, 'report']);
         Route::get('ledger_balance', [LedgerBalanceReportController::class, 'report']);
+        Route::get('ledger_balance/filter', [LedgerBalanceReportController::class, 'filter']);
         Route::get('trial_balance', [TrialBalanceController::class, 'report']);
         Route::get('trial_balance/{id}', [TrialBalanceController::class, 'details']);
         //new

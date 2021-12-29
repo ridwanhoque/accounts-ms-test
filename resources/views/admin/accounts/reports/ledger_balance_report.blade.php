@@ -37,20 +37,29 @@
 
 
 
-        <!-- <div class="row">
+        <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
                         <h3 class="tile-title"><i class="fa fa-search"></i> &nbsp; Search Your Report</h3>
                         <br>
                         <div class="tile-body">
-                            <form class="row" action="{{ url('report/income-expense/filter/') }}" method="get">
+                            <form class="row" action="{{ url('reports/ledger_balance/filter/') }}" method="get">
                                 <div class="form-group col-md-5">
                                     <label class="control-label">Start Date</label>
-                                    <input class="form-control date" type="text" name="start_date" value="" placeholder="Start Date" autocomplete="off">
+                                    <input class="form-control date" type="text" name="start_date" value="{{ request()->get('start_date') }}" placeholder="Start Date" autocomplete="off">
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="control-label">End Date </label>
-                                    <input class="form-control date" type="text" name="end_date" value="" placeholder="End Date" autocomplete="off">
+                                    <input class="form-control date" type="text" name="end_date" value="{{ request()->get('end_date') }}" placeholder="End Date" autocomplete="off">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Chart of Account</label>
+                                    <select name="chart_id" class="form-control select2">
+                                        <option value="">All</option>
+                                        @foreach ($charts as $chart)
+                                            <option value="{{ $chart->id }}" {{ $chart->id == request()->get('chart_id') ? 'selected':'' }}>{{ $chart->head_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-2 align-self-end">
                                     <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Search</button>
@@ -60,7 +69,7 @@
 
                     </div>
                 </div>
-        </div> -->
+        </div> 
 
 
         <div class="row">
@@ -114,6 +123,16 @@
 
 
 @section('js')
+
+    <script src="{{ asset('assets/admin/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/select2.min.js')}}"></script>
+
+    <script src="{{ asset('assets/admin/js/style.js') }}"></script>
+
+    <script type="text/javascript">
+    $('.select2').select2();
+    </script>    
+
     <script type="text/javascript" src="{{ asset('assets/admin/js/plugins/bootstrap-datepicker.min.js') }}"></script>
     <script>
         $('.date').datepicker({
