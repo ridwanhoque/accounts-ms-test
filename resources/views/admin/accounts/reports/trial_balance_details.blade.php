@@ -75,7 +75,7 @@
                                         <thead>
                                         <tr>
                                             <th>Chart Of Account</th>
-                                            <th>Balance</th>
+                                            <th class="text-right">Balance</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -87,7 +87,7 @@
                                                         {{ $chart->head_name ?? '' }}
                                                     </a>
                                                 </td>
-                                                <td>{{ Formatter::addComma($chart->balance) }}</td>
+                                                <td class="text-right">{{ Formatter::addComma($chart->balance) }}</td>
                                             </tr>
                                         @endforeach
 

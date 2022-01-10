@@ -53,12 +53,14 @@ class JournalVoucherRepository implements CrudInterface
         return $journal_voucher;
     }
 
-    public function save_journal_voucher_details($journal_voucher, $chart_id, $chart_description, $chart_amount){
+    public function save_journal_voucher_details($journal_voucher, $chart_id, $chart_description, $chart_amount, $debit = null){
         
         $data = [
             'chart_of_account_id' => $chart_id,
             'description' => $chart_description,
-            'amount' => $chart_amount
+            'amount' => $chart_amount,
+            'debit_amount' => $debit!=null ? 0:$chart_amount,
+            'credit_amount' => $debit!=null ? $chart_amount:0,
         ];
 
         $journal_voucher_details_id = $journal_voucher->journal_voucher_details()->create($data)->id;
@@ -67,11 +69,24 @@ class JournalVoucherRepository implements CrudInterface
     }
 
     public function save_credit_chart_of_account_balance($credit_chart_id, $credit_amount){
+        $credit_chart = ChartOfAccount::find($credit_chart_id);
+        $last_entry = ChartOfAccountBalance::where('chart_of_account_id', $credit_chart_id)
+                        ->orderByDesc('id')    
+                        ->orderByDesc('date');
+        $opening_balance = $last_entry->count() > 0 ? $last_entry->first()->closing_balance:0;
+        $debit = !Formatter::checkAssetExpense($credit_chart->chart_type_id) ?
+                        $credit_amount:0;
+        $credit = Formatter::checkAssetExpense($credit_chart->chart_type_id) ?
+                        $credit_amount:0;
+        $closing_balance = $opening_balance+$debit-$credit;
+
         $data = [
-            'date' => Carbon::today()->format('Y-m-d'),
+            'date' => request()->journal_date,
             'chart_of_account_id' => $credit_chart_id,
-            'opening_balance' => $credit_amount,
-            'closing_balance' => $credit_amount
+            'opening_balance' => $opening_balance,
+            'debit_amount' => $debit,
+            'credit_amount' => $credit,
+            'closing_balance' => $closing_balance
         ];
 
         $chart_of_account = ChartOfAccountBalance::create($data);
@@ -97,7 +112,9 @@ class JournalVoucherRepository implements CrudInterface
 
     public function save_debit_chart_of_account_balance($debit_chart_id, $debit_amount){
         $debit_chart = ChartOfAccount::find($debit_chart_id);
-        $last_entry = ChartOfAccountBalance::orderByDesc('date');
+        $last_entry = ChartOfAccountBalance::where('chart_of_account_id', $debit_chart_id)
+                            ->orderByDesc('id')
+                            ->orderByDesc('date');
         $opening_balance = $last_entry->count() > 0 ? $last_entry->first()->closing_balance:0;
         $debit = Formatter::checkAssetExpense($debit_chart->chart_type_id) ?
                         $debit_amount:0;
@@ -106,7 +123,7 @@ class JournalVoucherRepository implements CrudInterface
         $closing_balance = $opening_balance+$debit-$credit;
 
         $data = [
-            'date' => Carbon::today()->format('Y-m-d'),
+            'date' => request()->journal_date,
             'chart_of_account_id' => $debit_chart_id,
             'opening_balance' => $opening_balance,
             'debit_amount' => $debit,
@@ -173,13 +190,13 @@ class JournalVoucherRepository implements CrudInterface
                 $credit_amount = $request->credit_amount[$key];
                 
                 //store voucher information into payment voucher details table
-                $this->save_journal_voucher_details($journal_voucher, $credit_chart_id, $credit_description, $credit_amount);
+                $this->save_journal_voucher_details($journal_voucher, $credit_chart_id, $credit_description, $credit_amount, 1);
 
                 //update chart_of account current balance
                 $this->save_credit_chart_of_account($credit_chart_id, $credit_amount);
 
                 //store datewise debit credit into chart of account balance table
-                $this->save_debit_chart_of_account_balance($credit_chart_id, $credit_amount);
+                $this->save_credit_chart_of_account_balance($credit_chart_id, $credit_amount);
 
                 //store into transaction details table
                 $this->save_transaction_details($transaction, $credit_chart_id, $credit_amount, 1);
@@ -216,7 +233,7 @@ class JournalVoucherRepository implements CrudInterface
 
     public function show($id)
     { 
-        $journal_voucher = JournalVoucher::find($id);
+        $journal_voucher = JournalVoucher::findOrFail($id);
 
         return $journal_voucher;
 

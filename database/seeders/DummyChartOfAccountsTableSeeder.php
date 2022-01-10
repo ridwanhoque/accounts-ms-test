@@ -16,7 +16,7 @@ class DummyChartOfAccountsTableSeeder extends Seeder
         $default_charts = [
             // 'head_name','parent_id','tire','chart_type_id','owner_type_id','slug'
             //below are charts under trade payable chart having id = 52
-            ['A.B Card Center', 52, 5, 4, 1],
+            ['A.B Card Center (payable)', 52, 5, 4, 1],
             ['A.K Enterprise', 52, 5, 4, 1],
             ['AB Plastic Colour', 52, 5, 4, 1],
             ['AB Trade International', 52, 5, 4, 1],
@@ -83,7 +83,7 @@ class DummyChartOfAccountsTableSeeder extends Seeder
 
             //'head_name','parent_id','tire','chart_type_id','owner_type_id','slug'
             //below chart of accoutns are under accounts receiveable->corporate having id = 36
-            ['Abdul Monem Ltd (igloo)', 36, 5, 3, 1],
+            ['Abdul Monem Ltd (igloo) - receivable', 36, 5, 3, 1],
             ['Amin Square (BD)  ltd ', 36, 5, 3, 1],
             ['Amar Tong', 36, 5, 3, 1],
             ['Ascent Group(Coffe World)', 36, 5, 3, 1],

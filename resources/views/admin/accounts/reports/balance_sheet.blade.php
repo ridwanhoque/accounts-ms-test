@@ -37,63 +37,12 @@
 
 
 
-        <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="tile">
-                        <h3 class="tile-title"><i class="fa fa-search"></i> &nbsp; Search Your Report</h3>
-                        <br>
-                        <div class="tile-body">
-                            <form class="row" action="{{ url('report/income-expense/filter/') }}" method="get">
-                                <div class="form-group col-md-5">
-                                    <label class="control-label">Start Date</label>
-                                    <input class="form-control date" type="text" name="start_date" value="" placeholder="Start Date" autocomplete="off">
-                                </div>
-                                <div class="form-group col-md-5">
-                                    <label class="control-label">End Date </label>
-                                    <input class="form-control date" type="text" name="end_date" value="" placeholder="End Date" autocomplete="off">
-                                </div>
-                                <div class="form-group col-md-2 align-self-end">
-                                    <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Search</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-        </div> -->
-
+        
 
         <div class="row">
 
 
-            <div class="col-md-6">
-                <div class="tile">
-                    <h3 class="tile-title"><i class="fa fa-list"></i> &nbsp; Liability List</h3>
-
-                    <br>
-                    <div class="tile-body">
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Chart Of Account</th>
-                                <th>Amount</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            @foreach($liabilities as $liability)
-                                <tr>
-                                    <td>{{ $liability->head_name }}</td>
-                                    <td>{{ Formatter::addComma($liability->amount)*(-1) }}</td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
+            
 
 
             <div class="col-md-6">
@@ -113,8 +62,12 @@
 
                             @foreach($assets as $asset)
                                 <tr>
-                                    <td>{{ $asset->head_name }}</td>
-                                    <td>{{ Formatter::addComma($asset->amount) }}</td>
+                                    <td>
+                                        <a href="{{ url('/reports/trial_balance', $asset->id) }}">
+                                            {{ $asset->head_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ ($asset->balance) }}</td>
                                 </tr>
                             @endforeach
 
@@ -125,6 +78,39 @@
                 </div>
             </div>
 
+
+            <div class="col-md-6">
+                <div class="tile">
+                    <h3 class="tile-title"><i class="fa fa-list"></i> &nbsp; Liability List</h3>
+
+                    <br>
+                    <div class="tile-body">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Chart Of Account</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @foreach($liabilities as $liability)
+                                <tr>
+                                    <td>
+                                        <a href="{{ url('/reports/trial_balance', $liability->id) }}">
+                                            {{ $liability->head_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ ($liability->balance) }}</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
 
 
         </div>

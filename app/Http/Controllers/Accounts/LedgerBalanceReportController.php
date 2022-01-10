@@ -10,8 +10,8 @@ use App\ChartOfAccountBalance;
 class LedgerBalanceReportController extends Controller
 {
     public function report(){
-        $charts = ChartOfAccount::orderByDesc('id')->get();
-        $ledgers = ChartOfAccountBalance::with('chart_of_account')->orderByDesc('id')->paginate(25);
+        $charts = $this->charts();
+        $ledgers = ChartOfAccountBalance::with('chart_of_account')->orderBy('id')->paginate(25);
         return view('admin.accounts.reports.ledger_balance_report', compact('ledgers', 'charts'));
     }
 
@@ -21,15 +21,21 @@ class LedgerBalanceReportController extends Controller
         $end_date = request()->get('end_date') == "" ? today():request()->get('end_date');
         $chart_id = request()->get('chart_id');
 
-        $charts = ChartOfAccount::orderByDesc('id')->get();
+        $charts = $this->charts();
         $ledgers = ChartOfAccountBalance::with('chart_of_account')
                         ->whereBetween('date', [$start_date, $end_date])
                         ->when(request()->filled('chart_id'), function($q) use($chart_id){
                             $q->where('chart_of_account_id', $chart_id);
                         })
-                        ->orderByDesc('id')
+                        ->orderBy('id')
                         ->paginate(25);
         
         return view('admin.accounts.reports.ledger_balance_report', compact('ledgers', 'charts'));
+    }
+
+    private function charts(){
+        return ChartOfAccount::OrderByDesc('id')
+                ->whereHas('transaction_details')
+                ->get();
     }
 }

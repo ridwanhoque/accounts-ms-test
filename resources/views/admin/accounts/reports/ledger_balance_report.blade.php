@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','Balance Sheet Report')
+@section('title','Ledger Balance Report')
 
 @section('content')
 

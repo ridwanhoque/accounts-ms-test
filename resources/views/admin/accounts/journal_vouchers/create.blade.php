@@ -74,7 +74,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-inline">
                                                     <label class="pr-3">Date</label>
-                                                    <input id="journal_date" name="journal_date" readonly value="{{ date('Y-m-d') }}" type="text" class="form-control small_input_box @error('journal_date') is-invalid @enderror" placeholder="Journal Date">
+                                                    <input id="journal_date" class="date" name="journal_date" value="{{ date('Y-m-d') }}" type="text" class="form-control small_input_box @error('journal_date') is-invalid @enderror" placeholder="Journal Date">
 
                                                     @error('journal_date')
                                                     <span class="invalid-feedback" role="alert">
@@ -336,6 +336,15 @@
 <script src="{{ asset('assets/admin/js/plugins/select2.min.js')}}"></script>
 
 <script src="{{ asset('assets/admin/js/style.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('assets/admin/js/plugins/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('.date').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            todayHighlight: true
+        });
+    </script>
 
 <script>
     $(() => {

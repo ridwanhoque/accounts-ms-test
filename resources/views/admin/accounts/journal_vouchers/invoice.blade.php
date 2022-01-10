@@ -60,8 +60,8 @@
                       <tr>
                         <td>{{ $details->chart_of_account->head_name ?? '' }}</td>
                         <td>{{ $details->description }}</td>
-                        <td class="text-right">{{ Formatter::checkAssetExpense($details->chart_of_account->chart_type_id) ? $details->amount:'0.00' }}</td>
-                        <td class="text-right">{{ !Formatter::checkAssetExpense($details->chart_of_account->chart_type_id) ? $details->amount:'0.00' }}</td>
+                        <td class="text-right">{{ $details->debit_amount >0 ? $details->debit_amount:'0.00' }}</td>
+                        <td class="text-right">{{ $details->credit_amount >0 ? $details->credit_amount:'0.00' }}</td>
                       </tr>
                       @endforeach
                       <tr>
